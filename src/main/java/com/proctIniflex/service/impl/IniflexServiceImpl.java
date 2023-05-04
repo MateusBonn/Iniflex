@@ -2,19 +2,15 @@ package com.proctIniflex.service.impl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import com.proctIniflex.dto.FuncionarioDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import com.proctIniflex.model.FuncionarioModel;
+import com.proctIniflex.model.Funcionario;
 import com.proctIniflex.repository.IniflexRepository;
 import com.proctIniflex.service.IniflexService;
 
@@ -35,29 +31,29 @@ public class IniflexServiceImpl implements IniflexService {
 
 	@Transactional
 	@Override
-	public FuncionarioModel save(FuncionarioModel funcionarioModel) {
-		return iniflexRepository.save(funcionarioModel);
+	public Funcionario save(Funcionario funcionario) {
+		return iniflexRepository.save(funcionario);
 	}
 
 	@Override
-	public Optional<FuncionarioModel> findByNome(String nome) {
-		return iniflexRepository.findBynome(nome);
+	public Optional<Funcionario> findByNome(String nome) {
+		return iniflexRepository.findByNome(nome);
 	}
 
 	@Override
 	@Transactional
-	public void delete(FuncionarioModel funcionariotModel) {
+	public void delete(Funcionario funcionariotModel) {
 		iniflexRepository.delete(funcionariotModel);
 	}
 
 	@Override
 	public String somaSalarios() {
 
-		List<FuncionarioModel> listaSalarios = iniflexRepository.findAll();
+		List<Funcionario> listaSalarios = iniflexRepository.findAll();
 		BigDecimal
 				totalSalarios = BigDecimal.ZERO;
 
-		for (FuncionarioModel funcionario : listaSalarios) {
+		for (Funcionario funcionario : listaSalarios) {
 			totalSalarios =
 					totalSalarios.add(funcionario.getSalario());
 		}
@@ -67,44 +63,34 @@ public class IniflexServiceImpl implements IniflexService {
 	}
 
 	//TENTEI IMPLEMENTAR PARA CRIAR UM MAP E RETORNAR AGRUPADO POR FUNÇAO , MAS NAO CONSEGUI
-	public List<String> obterTodosOsFuncionarios() {
-		List<FuncionarioModel> listfuncionarios = iniflexRepository.findAll();
-		Map<String, List<FuncionarioModel>> funcionariosPorFuncao = new HashMap<>();
-		for (FuncionarioModel funcionario : listfuncionarios) {
+	public List<Funcionario> obterTodosFuncionariosFuncao() {
+		List<Funcionario> listfuncionarios = iniflexRepository.findByOrderByFuncao();
+		/*Map<String, List<Funcionario>> funcionariosPorFuncao = new HashMap<>();
+		for (Funcionario funcionario : listfuncionarios) {
 			String funcao = funcionario.getFuncao();
-			List<FuncionarioModel> listaFuncionarios = funcionariosPorFuncao
-					.getOrDefault(funcao, new ArrayList<FuncionarioModel>());
+			List<Funcionario> listaFuncionarios = funcionariosPorFuncao
+					.getOrDefault(funcao, new ArrayList<Funcionario>());
 			listaFuncionarios.add(funcionario);
 			funcionariosPorFuncao.put(funcao, listaFuncionarios);
 		}
 		List<String> funcoesFuncionarios = new ArrayList<>();
 		for (String funcao : funcionariosPorFuncao.keySet()) {
-			List<FuncionarioModel> funcionariosDaFuncao = funcionariosPorFuncao
+			List<Funcionario> funcionariosDaFuncao = funcionariosPorFuncao
 					.get(funcao);
 			funcoesFuncionarios.add("Funcionários da função " + funcao + ": ");
-			for (FuncionarioModel funcionario : funcionariosDaFuncao) {
+			for (Funcionario funcionario : funcionariosDaFuncao) {
 				funcoesFuncionarios.add("- " + funcionario.getNome()
 						+ ", Salário: R$ "
 						+ formatoDecimal.format(funcionario.getSalario()));
 			}
+		}*/
+
+			return listfuncionarios;
 		}
 
-			return funcoesFuncionarios;
-		}
-
-		public List<String> obterFuncionarioAlfabetica () {
-			List<FuncionarioModel> funcionarios = iniflexRepository.findAll();
-			Collections.sort(funcionarios, new Comparator<FuncionarioModel>() {
-				@Override
-				public int compare(FuncionarioModel funcionario, FuncionarioModel funcionario2) {
-					return funcionario.getNome().compareTo(funcionario2.getNome());
-				}
-			});
-			List<String> nomesFuncionarios = new ArrayList<>();
-			for (FuncionarioModel funcionario : funcionarios) {
-				nomesFuncionarios.add(funcionario.getNome());
-			}
-			return nomesFuncionarios;
+		public List<Funcionario> obterFuncionarioAlfabetica () {
+			List<Funcionario> funcionarios = iniflexRepository.findByOrderByNome();
+			return funcionarios;
 		}
 
 		@Override
@@ -115,8 +101,8 @@ public class IniflexServiceImpl implements IniflexService {
 
 	public List<String> aumentoSalario(Long aumento){
 		BigDecimal percentual = BigDecimal.valueOf(aumento).divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_HALF_UP);
-		List<FuncionarioModel> salariosFuncionarios = iniflexRepository.findAll();
-		for (FuncionarioModel funcionario : salariosFuncionarios) {
+		List<Funcionario> salariosFuncionarios = iniflexRepository.findAll();
+		for (Funcionario funcionario : salariosFuncionarios) {
 			BigDecimal salarioAtual = funcionario.getSalario();
 			funcionario.setSalario(salarioAtual.add(funcionario.getSalario().multiply(
 					percentual)));
@@ -124,7 +110,7 @@ public class IniflexServiceImpl implements IniflexService {
 			log.info("Aumento de salário do funcionarios " + funcionario.getNome());
 		}
 		List<String> salariosAumentados = new ArrayList<>();
-		for (FuncionarioModel funcionario : salariosFuncionarios){
+		for (Funcionario funcionario : salariosFuncionarios){
 			salariosAumentados.add("Funcionario: " + funcionario.getNome() + " Novo salários: " + formatoDecimal.format(funcionario.getSalario()));
 		}
 		return salariosAumentados;
@@ -133,9 +119,9 @@ public class IniflexServiceImpl implements IniflexService {
 
 	public List<String> qtSalario(){
 		BigDecimal salarioMinimo = BigDecimal.valueOf(1212.00);
-		List<FuncionarioModel> salarios = iniflexRepository.findAll();
+		List<Funcionario> salarios = iniflexRepository.findAll();
 		List<String> qtSalarioMinimo = new ArrayList<>();
-		for (FuncionarioModel funcionario : salarios) {
+		for (Funcionario funcionario : salarios) {
 			BigDecimal salario = funcionario.getSalario();
 			qtSalarioMinimo.add(funcionario.getNome() + " recebe " + salario.divide(salarioMinimo, 0, RoundingMode.FLOOR).intValue() + " salários mínimos");
 		}
@@ -143,10 +129,10 @@ public class IniflexServiceImpl implements IniflexService {
 	}
 
 	public List<String> outubroDezembro(){
-		List<FuncionarioModel> allFuncionarios = iniflexRepository.findAll();
+		List<Funcionario> allFuncionarios = iniflexRepository.findAll();
 		List<String> aniversariantes = new ArrayList<>();
 
-		for (FuncionarioModel funcionario : allFuncionarios) {
+		for (Funcionario funcionario : allFuncionarios) {
 			if (funcionario.getDataNascimento().getMonthValue() == 10
 					|| funcionario.getDataNascimento().getMonthValue() == 12) {
 				aniversariantes.add("Nome: " + funcionario.getNome() + " - "
@@ -161,12 +147,12 @@ public class IniflexServiceImpl implements IniflexService {
 	}
 
 	public String maiorIdade(){
-		List<FuncionarioModel> listaIdades = iniflexRepository.findAll();
-		FuncionarioModel funcionarioMaisVelho = listaIdades.get(0);
+		List<Funcionario> listaIdades = iniflexRepository.findAll();
+		Funcionario funcionarioMaisVelho = listaIdades.get(0);
 		int idadeMaisVelho = funcionarioMaisVelho.getDataNascimento()
 				.until(LocalDate.now()).getYears();
 		for (int i = 1; i < listaIdades.size(); i++) {
-			FuncionarioModel funcionarioAtual = listaIdades.get(i);
+			Funcionario funcionarioAtual = listaIdades.get(i);
 			int idadeAtual = funcionarioAtual.getDataNascimento()
 					.until(LocalDate.now()).getYears();
 

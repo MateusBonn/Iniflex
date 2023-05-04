@@ -11,14 +11,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "TB_FUNCIONARIO")
 @Getter
 @Setter
-public class FuncionarioModel implements Serializable{
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Funcionario implements Serializable{
 
 	/**
 	 * 

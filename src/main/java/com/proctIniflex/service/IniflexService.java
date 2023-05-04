@@ -1,26 +1,23 @@
 package com.proctIniflex.service;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import com.proctIniflex.dto.FuncionarioDTO;
-import com.proctIniflex.model.FuncionarioModel;
+import com.proctIniflex.model.Funcionario;
 
 public interface IniflexService {
 
-	List<String> obterFuncionarioAlfabetica();
+	List<Funcionario> obterFuncionarioAlfabetica();
 
-	FuncionarioModel save(FuncionarioModel funcionariotModel);
+	Funcionario save(Funcionario funcionariotModel);
 
-	Optional<FuncionarioModel> findByNome(String nome);
+	Optional<Funcionario> findByNome(String nome);
 
-	void delete(FuncionarioModel funcionarioModel);
+	void delete(Funcionario funcionario);
 
 	String somaSalarios();
 
-	List<String> obterTodosOsFuncionarios();
+	List<Funcionario> obterTodosFuncionariosFuncao();
 
 	boolean existsByName(String nome);
 

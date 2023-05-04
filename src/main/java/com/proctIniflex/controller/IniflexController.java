@@ -1,9 +1,7 @@
 package com.proctIniflex.controller;
 
-import java.math.BigDecimal;
 import java.util.*;
 
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -11,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.proctIniflex.dto.FuncionarioDTO;
-import com.proctIniflex.model.FuncionarioModel;
+import com.proctIniflex.model.Funcionario;
 import com.proctIniflex.service.IniflexService;
 
 import jakarta.validation.Valid;
@@ -40,7 +38,7 @@ public class IniflexController {
         }
 
         log.info("Salvando os dados na tabela TB_FUNCIONARIO");
-        var funcionarioModel = new FuncionarioModel();
+        var funcionarioModel = new Funcionario();
         BeanUtils.copyProperties(funcionarioDTO, funcionarioModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(iniflexService.save(funcionarioModel));
     }
@@ -51,7 +49,7 @@ public class IniflexController {
     @DeleteMapping("/{nome}")
     public ResponseEntity<Object> deleteFuncionarios(@PathVariable(value = "nome") String nome) {
         log.info("Deleta informação com base no nome!");
-        Optional<FuncionarioModel> funcionarioModelOptional = iniflexService.findByNome(nome);
+        Optional<Funcionario> funcionarioModelOptional = iniflexService.findByNome(nome);
         if (!funcionarioModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionario não encontrado!");
         }
@@ -84,7 +82,7 @@ public class IniflexController {
      */
     @GetMapping("/porFuncao")
     public ResponseEntity<Object> obterFuncionariosPorFuncao() {
-        return ResponseEntity.status(HttpStatus.OK).body(iniflexService.obterTodosOsFuncionarios());//iniflexService.obterTodosOsFuncionarios();
+        return ResponseEntity.status(HttpStatus.OK).body(iniflexService.obterTodosFuncionariosFuncao());//iniflexService.obterTodosOsFuncionarios();
     }
 
     /*
