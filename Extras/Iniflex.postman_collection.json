@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "ed540e20-41bf-42a2-8d84-d50d027a5de9",
+		"name": "Iniflex",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25026610"
+	},
+	"item": [
+		{
+			"name": "Salvar Funcionario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"João\",\r\n    \"dataNascimento\": \"1990-05-12\",\r\n    \"salario\": 2284.38,\r\n    \"funcao\": \"Operador\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/iniflex/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iniflex",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Body de requisição",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/iniflex/body",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iniflex",
+						"body"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Soma de todos salarios",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/iniflex/soma",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iniflex",
+						"soma"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exclusão de funcionario",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/iniflex/João",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iniflex",
+						"João"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ordenar por função",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/iniflex/porFuncao",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iniflex",
+						"porFuncao"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Funcionarios por ordem alfabética",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/iniflex/ordem-alfabetica",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iniflex",
+						"ordem-alfabetica"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aumento de salário",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/iniflex/{porcentagem}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iniflex",
+						"{porcentagem}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quantidade de salários minimo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/iniflex/qtSalarioMinimo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iniflex",
+						"qtSalarioMinimo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Funcionario mais velho",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/iniflex/funcionario-mais-velho",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iniflex",
+						"funcionario-mais-velho"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aniversariantes de outubro e dezembro",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/iniflex/outubro-dezembro",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"iniflex",
+						"outubro-dezembro"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
