@@ -99,7 +99,7 @@ public class IniflexController {
      * @param porcentagem
      */
     @GetMapping("/{porcentagem}")
-    public ResponseEntity<Object> funcionariosPorOrdemAlfabetica(@PathVariable (value = "porcentagem") Long porcentagem){
+    public ResponseEntity<Object> aumentoTodosSalarios(@PathVariable (value = "porcentagem") Long porcentagem){
         return ResponseEntity.status(HttpStatus.OK).body(iniflexService.aumentoSalario(porcentagem));
 
     }
