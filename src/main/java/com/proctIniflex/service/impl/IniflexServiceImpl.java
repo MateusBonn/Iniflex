@@ -64,8 +64,8 @@ public class IniflexServiceImpl implements IniflexService {
 		return formatoDecimal.format(totalSalarios);
 
 	}
-
-	//TENTEI IMPLEMENTAR PARA CRIAR UM MAP E RETORNAR AGRUPADO POR FUNÇAO , MAS NAO CONSEGUI
+	
+	//CONSEGUI!! NÃO DO JEITO QUE EU QUERIA! MAS CONSEGUI
 	public List<ResponseFuncaoDTO> obterTodosFuncionariosFuncao() {
 		List<Funcionario> listfuncionarios = iniflexRepository.findByOrderByFuncao();
 		Map<String, List<Funcionario>> gruposPorFuncao = listfuncionarios.stream()
@@ -133,9 +133,6 @@ public class IniflexServiceImpl implements IniflexService {
 		List<Funcionario> aniversariantes = new ArrayList<>();
 		aniversariantes.addAll(aniversariantesOct);
 		aniversariantes.addAll(aniversariantesDec);
-		/*for (Funcionario funcionario : aniversariantes) {
-			funcionario.setDataNascimento(LocalDate.parse(funcionario.getDataNascimento().toString(), formatter));
-		}*/
 		return aniversariantes;
 	}
 
