@@ -48,7 +48,7 @@ public class IniflexController {
      */
     @DeleteMapping("/{nome}")
     public ResponseEntity<Object> deleteFuncionarios(@PathVariable(value = "nome") String nome) {
-        log.info("Deleta informação com base no nome!");
+    	log.info("Deleta informação com base no nome!");
         Optional<Funcionario> funcionarioModelOptional = iniflexService.findByNome(nome);
         if (!funcionarioModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionario não encontrado!");
@@ -62,7 +62,7 @@ public class IniflexController {
      */
     @GetMapping("/body")
     public ResponseEntity<Object> getBody() {
-        log.info("Body de dados de envio!");
+    	log.info("Body de dados de envio!");
 
         FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
         return ResponseEntity.status(HttpStatus.OK).body(funcionarioDTO);
@@ -73,7 +73,7 @@ public class IniflexController {
      */
     @GetMapping("/soma")
     public ResponseEntity<Object> getSomaSalario() {
-        log.info("Soma de todos os salários registrados no banco de dados");
+    	log.info("Soma de todos os salários registrados no banco de dados");
         return ResponseEntity.status(HttpStatus.OK).body(iniflexService.somaSalarios());
     }
 
@@ -90,7 +90,7 @@ public class IniflexController {
      */
     @GetMapping("/ordem-alfabetica")
     public ResponseEntity<Object> funcionariosPorOrdemAlfabetica(){
-        log.info("Informa os funcionarios em ordem alfabética");
+    	log.info("Informa os funcionarios em ordem alfabética");
         return ResponseEntity.status(HttpStatus.OK).body(iniflexService.obterFuncionarioAlfabetica());
     }
 
@@ -99,7 +99,7 @@ public class IniflexController {
      * @param porcentagem
      */
     @GetMapping("/{porcentagem}")
-    public ResponseEntity<Object> funcionariosPorOrdemAlfabetica(@PathVariable (value = "porcentagem") Long porcentagem){
+    public ResponseEntity<Object> aumentoTodosSalarios(@PathVariable (value = "porcentagem") Long porcentagem){
         return ResponseEntity.status(HttpStatus.OK).body(iniflexService.aumentoSalario(porcentagem));
 
     }

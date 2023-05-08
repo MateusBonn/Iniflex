@@ -23,5 +23,11 @@ public interface IniflexRepository extends JpaRepository<Funcionario, UUID>{
 
 	List<Funcionario> findByOrderByNome();
 
+	@Query("SELECT f FROM Funcionario f WHERE MONTH(f.dataNascimento) = 10")
+	List<Funcionario> findByDateOct();
+
+	@Query("SELECT f FROM Funcionario f WHERE MONTH(f.dataNascimento) = 12")
+	List<Funcionario> findByDateDec();
+
 
 }

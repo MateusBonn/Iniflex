@@ -3,6 +3,7 @@ package com.proctIniflex.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.proctIniflex.dto.ResponseFuncaoDTO;
 import com.proctIniflex.model.Funcionario;
 
 public interface IniflexService {
@@ -17,7 +18,7 @@ public interface IniflexService {
 
 	String somaSalarios();
 
-	List<Funcionario> obterTodosFuncionariosFuncao();
+	List<ResponseFuncaoDTO> obterTodosFuncionariosFuncao();
 
 	boolean existsByName(String nome);
 
@@ -27,5 +28,5 @@ public interface IniflexService {
 
 	String maiorIdade();
 
-	List<String> outubroDezembro();
+	List<Funcionario> outubroDezembro();
 }

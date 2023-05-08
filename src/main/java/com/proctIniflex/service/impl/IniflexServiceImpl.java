@@ -6,10 +6,13 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import com.proctIniflex.dto.FuncionarioDTO;
+import com.proctIniflex.dto.ResponseFuncaoDTO;
 import com.proctIniflex.model.Funcionario;
 import com.proctIniflex.repository.IniflexRepository;
 import com.proctIniflex.service.IniflexService;
@@ -63,29 +66,25 @@ public class IniflexServiceImpl implements IniflexService {
 	}
 
 	//TENTEI IMPLEMENTAR PARA CRIAR UM MAP E RETORNAR AGRUPADO POR FUNÇAO , MAS NAO CONSEGUI
-	public List<Funcionario> obterTodosFuncionariosFuncao() {
+	public List<ResponseFuncaoDTO> obterTodosFuncionariosFuncao() {
 		List<Funcionario> listfuncionarios = iniflexRepository.findByOrderByFuncao();
-		/*Map<String, List<Funcionario>> funcionariosPorFuncao = new HashMap<>();
-		for (Funcionario funcionario : listfuncionarios) {
-			String funcao = funcionario.getFuncao();
-			List<Funcionario> listaFuncionarios = funcionariosPorFuncao
-					.getOrDefault(funcao, new ArrayList<Funcionario>());
-			listaFuncionarios.add(funcionario);
-			funcionariosPorFuncao.put(funcao, listaFuncionarios);
-		}
-		List<String> funcoesFuncionarios = new ArrayList<>();
-		for (String funcao : funcionariosPorFuncao.keySet()) {
-			List<Funcionario> funcionariosDaFuncao = funcionariosPorFuncao
-					.get(funcao);
-			funcoesFuncionarios.add("Funcionários da função " + funcao + ": ");
-			for (Funcionario funcionario : funcionariosDaFuncao) {
-				funcoesFuncionarios.add("- " + funcionario.getNome()
-						+ ", Salário: R$ "
-						+ formatoDecimal.format(funcionario.getSalario()));
-			}
-		}*/
-
-			return listfuncionarios;
+		Map<String, List<Funcionario>> gruposPorFuncao = listfuncionarios.stream()
+	            .collect(Collectors.groupingBy(Funcionario::getFuncao));
+	        List<ResponseFuncaoDTO> respostas = gruposPorFuncao.entrySet().stream()
+	            .map(grupoPorFuncao -> {
+	                String funcao = grupoPorFuncao.getKey();
+	                List<FuncionarioDTO> funcionariosDTO = grupoPorFuncao.getValue().stream()
+	                    .map(funcionario  -> new FuncionarioDTO(
+	                    		funcionario .getNome(),
+	                    		funcionario .getDataNascimento(),
+	                    		funcionario .getSalario(),
+	                    		funcionario.getFuncao()
+	                    ))
+	                    .collect(Collectors.toList());
+	                return new ResponseFuncaoDTO(funcao, funcionariosDTO);
+	            })
+	            .collect(Collectors.toList());
+	        return respostas;
 		}
 
 		public List<Funcionario> obterFuncionarioAlfabetica () {
@@ -128,21 +127,15 @@ public class IniflexServiceImpl implements IniflexService {
 		return qtSalarioMinimo;
 	}
 
-	public List<String> outubroDezembro(){
-		List<Funcionario> allFuncionarios = iniflexRepository.findAll();
-		List<String> aniversariantes = new ArrayList<>();
-
-		for (Funcionario funcionario : allFuncionarios) {
-			if (funcionario.getDataNascimento().getMonthValue() == 10
-					|| funcionario.getDataNascimento().getMonthValue() == 12) {
-				aniversariantes.add("Nome: " + funcionario.getNome() + " - "
-						+ "Data de nascimento: "
-						+ LocalDate.parse(funcionario.getDataNascimento().toString()).format(formatter)
-						+ " - " + "Salário: "
-						+ formatoDecimal.format(funcionario.getSalario())
-						+ " - " + "Função: " + funcionario.getFuncao());
-			}
-		}
+	public List<Funcionario> outubroDezembro(){
+		List<Funcionario> aniversariantesOct = iniflexRepository.findByDateOct();
+		List<Funcionario> aniversariantesDec = iniflexRepository.findByDateDec();
+		List<Funcionario> aniversariantes = new ArrayList<>();
+		aniversariantes.addAll(aniversariantesOct);
+		aniversariantes.addAll(aniversariantesDec);
+		/*for (Funcionario funcionario : aniversariantes) {
+			funcionario.setDataNascimento(LocalDate.parse(funcionario.getDataNascimento().toString(), formatter));
+		}*/
 		return aniversariantes;
 	}
 
